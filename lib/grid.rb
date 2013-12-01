@@ -6,15 +6,15 @@ class Grid
     raise ArgumentError, 'Not 81 cells' if puzzle.length != 81
     raise ArgumentError, 'Non digits' if !(puzzle =~ /\d{81}/)
     @cells = []
-    setup_cell_sets
+    # setup_cell_sets
     set_up_cells puzzle.split('')
   end
 
-  def setup_cell_sets
-    (1..27).each { |n| CellSet.new(n) }
-  end
+  # def setup_cell_sets
+  #   (1..27).each { |n| CellSet.new(n) }
+  # end
 
-  def set_up(puzzle)
+  def set_up_cells(puzzle)
     (1..81).each { |n| @cells << Cell.new({ref: n, value: puzzle[n - 1].to_i}) }
   end
 

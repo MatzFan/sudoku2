@@ -3,7 +3,7 @@ require 'grid'
 describe Grid do
   context 'initialization' do
 
-    let(:easy_puzzle) { '0150030020001009062700684304900020175010403800039050'+
+    let(:easy) { '0150030020001009062700684304900020175010403800039050'+
                         '00900081040860070025037204600' }
     let(:invalid) { '-150030020001009062700684304900020175010403800039050'+
                     '00900081040860070025037204600' }
@@ -22,7 +22,7 @@ describe Grid do
     end
 
     it 'should know when it is unsolved (any cell unsolved)' do
-      expect(Grid.new(easy_puzzle)).not_to be_solved
+      expect(Grid.new(easy)).not_to be_solved
     end
 
     it 'should know when it is solved (all cells solved)' do

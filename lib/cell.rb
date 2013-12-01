@@ -1,19 +1,13 @@
+require 'constraints'
+
 class Cell
 
+  include Constraints
+
   def initialize(args)
-    @reference = args[:ref]
-    setup_cell_sets(ref)
-
-    # value = args[:value]
-    # value == 0 || !value ? @values = (1..9).to_a : @values = [args[:value]]
-  end
-
-  def setup_cell_sets(ref)
-    CellSet.new(ref)
-  end
-
-  def eliminate(value)
-
+    ref = args[:ref]
+    value = args[:value]
+    value == 0 || !value ? @values = (1..9).to_a : @values = [args[:value]]
   end
 
   def solved?
