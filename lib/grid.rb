@@ -10,7 +10,7 @@ class Grid
   end
 
   def set_up(puzzle)
-    (1..81).each { |n| @cells << Cell.new(ref: n, value: puzzle[n - 1].to_i) }
+    (1..81).each { |n| @cells << Cell.new({ref: n, value: puzzle[n - 1].to_i}) }
   end
 
   def solved?

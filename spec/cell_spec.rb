@@ -3,8 +3,8 @@ require 'cell'
 describe Cell do
   context 'initialization' do
 
-    let(:cell_1) { Cell.new(ref: 1, value: 0) }
-    let(:cell_31) { Cell.new(ref: 31, value: 6) }
+    let(:cell_1) { Cell.new({ref: 1, value: 0}) }
+    let(:cell_31) { Cell.new({ref: 31, value: 6}) }
 
 
     it 'should know it is not solved' do
