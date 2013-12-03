@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require_relative 'cell'
 require_relative 'constraints'
 
@@ -17,8 +19,10 @@ class Grid
   end
 
   def solve
-    update_cell_values
-    update_cell_values
+    100.times do
+      update_cell_values
+      return if solved?
+    end
   end
 
   def unsolved_cells
@@ -35,10 +39,8 @@ class Grid
 
   def update_cell_values
     unsolved_cell_refs.each do |ref|
-      this_cell = cell_at(ref)
-      other_solved_cells = solved_cells(cell_constraints[ref])
-      other_solved_cells.each do |other_solved_cell|
-        this_cell.reduce_cell_values(other_solved_cell)
+      solved_cells(cell_constraints[ref]).each do |other_solved_cell|
+        cell_at(ref).reduce_cell_values(other_solved_cell)
       end
     end
   end
@@ -69,12 +71,12 @@ class Grid
     CELL_SETS[ref].map { |set| CONSTRAINT_SETS[set] }
   end
 
-end # of class
+  def simple_string
+    s = ''; cells.flatten.each { |cell| s << cell.to_s }; s
+  end
 
-s = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'
-g = Grid.new(s)
-# # p g.unsolved_cell_refs.count
-# # (0..80).each { |n| p g.cell_at(n).values }
-# p g.solved_cells( g.cells.flatten )
-g.update_cell_values
-g.cells[0]
+  def to_s
+    cells.each { |row| row.each { |cell| printf("%2s", cell.to_s) }; puts }
+  end
+
+end # of class

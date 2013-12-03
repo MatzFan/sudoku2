@@ -67,4 +67,10 @@ describe Grid do
     end
   end # of context
 
+  context '#to_s' do
+    xit 'should return a string representation of the puzzle' do
+      easy_grid.to_s.should == '615493872348127956279568431496832517521746389783915264952681743864379125137254698'
+    end
+  end
+
 end # of describe

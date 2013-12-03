@@ -28,4 +28,15 @@ describe Cell do
     end
   end # of context
 
+  context '#to_s' do
+    it 'should return empty string if cell is not solved' do
+      unsolved_cell.to_s.should == '-'
+    end
+
+    it 'should return cell value if cell is solved' do
+      unsolved_cell.value = 3
+      unsolved_cell.to_s.should == '3'
+    end
+  end
+
 end # of describe

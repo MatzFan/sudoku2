@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 class Cell
 
   attr_reader :ref, :values
@@ -11,11 +13,15 @@ class Cell
   end
 
   def solved?
-    @values.length == 1
+    values.length == 1
   end
 
   def reduce_cell_values(solved_cell)
     @values -= solved_cell.values
   end
 
-end
+  def to_s
+    values.length == 1 ? values[0].to_s : '-'
+  end
+
+end # of class
