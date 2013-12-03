@@ -11,7 +11,7 @@ class Grid
     raise ArgumentError, 'Not 81 cells' if puzzle.length != 81
     raise ArgumentError, 'Non digits' if !(puzzle =~ /\d{81}/)
     @cells = Array.new(9) { Array.new(9) { Cell.new } }
-    @cell_constraints = Array.new(81) { Array.new }
+    @cell_constraints = Array.new(81) { Array.new } # array of cells
     setup_cell_constraint_sets
     feed_in_puzzle_values(puzzle.split(''))
   end
@@ -28,10 +28,16 @@ class Grid
     (0..80).reject { |n| cell_at(n).solved? }
   end
 
+  def solved_cells(cells)
+    cells.reject { |cell| !cell.solved? }
+  end
+
   def update_cell_values
     unsolved_cells_refs.each do |ref|
-      cell_at(cell_constraints(ref)).each do |cell|
-        cell_at(ref).values.length == 1 ? 1 : 0
+      this_cell = cell_at(ref)
+      other_solved_cells = solved_cells(cell_constraints(ref))
+      other_solved_cells.each do |other_cell|
+        reduce_cell_values(cell, other_cell)
       end
     end
   end
@@ -51,8 +57,7 @@ class Grid
   end
 
   def solved?
-    # unsolved_cells.nil?
-    cells.flatten.all?(&:solved?) # true otherwise
+    solved_cells(cells.flatten).count == 81
   end
 
   def constraint_cell_refs(ref)
@@ -65,7 +70,8 @@ class Grid
 
 end # of class
 
-s = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'
-g = Grid.new(s)
-# p g.unsolved_cell_refs.count
-(0..80).each { |n| p g.cell_at(n).values }
+# s = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'
+# g = Grid.new(s)
+# # p g.unsolved_cell_refs.count
+# # (0..80).each { |n| p g.cell_at(n).values }
+# p g.solved_cells( g.cells.flatten )

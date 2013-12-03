@@ -1,23 +1,30 @@
 require 'cell'
 
 describe Cell do
+
+    let(:unsolved_cell) { Cell.new } # unsolved
+
   context '(initialization)' do
-
-    let(:cell) { Cell.new }
-    # let(:cell_8) { Cell.new({ref: 8, value: 7}) }
-    # let(:cell_30) { Cell.new({ref: 30, value: 6}) }
-
     it 'should know it is not solved' do
-      expect(cell).not_to be_solved
+      expect(unsolved_cell).not_to be_solved
     end
 
     it 'should know when it is solved' do
-      cell.value = 1
-      expect(cell).to be_solved
+      unsolved_cell.value = 1
+      expect(unsolved_cell).to be_solved
     end
 
     it 'should know the the range of values it may have when initialized' do
-      cell.values.should == [1,2,3,4,5,6,7,8,9]
+      unsolved_cell.values.should == [1,2,3,4,5,6,7,8,9]
+    end
+  end
+
+  context '(solving puzzle)' do
+    it "should be able to update it's values by reference to a solved cell" do
+      solved_cell = Cell.new
+      solved_cell.value = 5
+      unsolved_cell.reduce_cell_values(solved_cell)
+      unsolved_cell.values.should == [1,2,3,4,6,7,8,9]
     end
   end # of context
 

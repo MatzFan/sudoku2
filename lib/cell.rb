@@ -6,12 +6,16 @@ class Cell
     @values = (1..9).to_a
   end
 
-  def value=(value)
+  def value=(value) # for initialization only - takes integer arg
     @values = [value] if value != 0
   end
 
   def solved?
     @values.length == 1
+  end
+
+  def reduce_cell_values(solved_cell)
+    @values -= solved_cell.values
   end
 
 end

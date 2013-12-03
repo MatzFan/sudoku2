@@ -31,6 +31,10 @@ describe Grid do
       [0,3,4,6,7,9,10,11,13,14,16,20,21,26,29,30,31,33,37,39,41,44,45,46,49,51,
         52,53,55,56,57,60,62,65,66,68,69,72,76,79,80]
     end
+
+    it 'should have a list of unsolved cell refs after inialization' do
+      easy_grid.unsolved_cells.length.should == 41
+    end
   end # of context
 
   context '(initialization of constraints)' do
@@ -51,11 +55,6 @@ describe Grid do
 
     it 'should know when it is solved (all cells solved)' do
       expect(solved_grid).to be_solved
-    end
-
-    xit 'should be solvable' do
-      easy_grid.solve
-      easy_grid.should be_solved
     end
   end # of context
 
