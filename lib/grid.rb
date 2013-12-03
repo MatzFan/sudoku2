@@ -18,6 +18,7 @@ class Grid
 
   def solve
     update_cell_values
+    update_cell_values
   end
 
   def unsolved_cells
@@ -33,11 +34,11 @@ class Grid
   end
 
   def update_cell_values
-    unsolved_cells_refs.each do |ref|
+    unsolved_cell_refs.each do |ref|
       this_cell = cell_at(ref)
-      other_solved_cells = solved_cells(cell_constraints(ref))
-      other_solved_cells.each do |other_cell|
-        reduce_cell_values(cell, other_cell)
+      other_solved_cells = solved_cells(cell_constraints[ref])
+      other_solved_cells.each do |other_solved_cell|
+        this_cell.reduce_cell_values(other_solved_cell)
       end
     end
   end
@@ -70,8 +71,10 @@ class Grid
 
 end # of class
 
-# s = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'
-# g = Grid.new(s)
+s = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'
+g = Grid.new(s)
 # # p g.unsolved_cell_refs.count
 # # (0..80).each { |n| p g.cell_at(n).values }
 # p g.solved_cells( g.cells.flatten )
+g.update_cell_values
+g.cells[0]

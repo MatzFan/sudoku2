@@ -45,7 +45,6 @@ describe Grid do
     it "should know the set of cells constraining a given cell's value" do
       easy_grid.cell_constraints[0].count.should == 20
     end
-
   end # of context
 
   context '(solving puzzle)' do
@@ -55,6 +54,16 @@ describe Grid do
 
     it 'should know when it is solved (all cells solved)' do
       expect(solved_grid).to be_solved
+    end
+
+    it 'should know when it is solved (all cells solved)' do
+      easy_grid.update_cell_values
+      easy_grid.cell_at(0).values.should == [6]
+    end
+
+    it 'should be solvable!' do
+      easy_grid.solve
+      easy_grid.should be_solved
     end
   end # of context
 
