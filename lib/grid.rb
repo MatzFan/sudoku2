@@ -16,6 +16,26 @@ class Grid
     feed_in_puzzle_values(puzzle.split(''))
   end
 
+  def solve
+    update_cell_values
+  end
+
+  def unsolved_cells
+    unsolved_cell_refs.map { |ref| cell_at(ref)}
+  end
+
+  def unsolved_cell_refs
+    (0..80).reject { |n| cell_at(n).solved? }
+  end
+
+  def update_cell_values
+    unsolved_cells_refs.each do |ref|
+      cell_at(cell_constraints(ref)).each do |cell|
+        cell_at(ref).values.length == 1 ? 1 : 0
+      end
+    end
+  end
+
   def feed_in_puzzle_values(puzzle_array)
     (0..80).each { |n| cell_at(n).value = puzzle_array[n].to_i }
   end
@@ -31,6 +51,7 @@ class Grid
   end
 
   def solved?
+    # unsolved_cells.nil?
     cells.flatten.all?(&:solved?) # true otherwise
   end
 
@@ -44,5 +65,7 @@ class Grid
 
 end # of class
 
-# g = Grid.new('015003002000100906270068430490002017501040380003905000900081040860070025037204600')
-# p g.cells.flatten
+s = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'
+g = Grid.new(s)
+# p g.unsolved_cell_refs.count
+(0..80).each { |n| p g.cell_at(n).values }
