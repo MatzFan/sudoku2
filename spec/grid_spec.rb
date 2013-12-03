@@ -8,7 +8,7 @@ describe Grid do
                   '00900081040860070025037204600' }
   let(:solved) { '615493872348127956279568431496832517521746389783915264952'+
                  '681743864379125137254698' }
-  let(:grid) { Grid.new(easy) }
+  let(:easy_grid) { Grid.new(easy) }
   let(:solved_grid) { Grid.new(solved) }
   let(:cell_0) { double(easy.cells[0]) }
   let(:cell_0_constraint_refs) { [1,2,3,4,5,6,7,8,9,10,11,18,19,20,27,36,45,54,63,72] }
@@ -21,22 +21,26 @@ describe Grid do
     it 'should raise an error if it cannot be initialized with 81 cells' do
       expect { Grid.new(invalid) }.to raise_error ArgumentError, 'Non digits'
     end
+
+    it 'should be initialized with a set of cells with values' do
+      easy_grid.cells.flatten[2].values.should == [5]
+    end
   end # of context
 
   context '(initialization of constraints)' do
     it "should know the references of all cells constraining a given cell's value" do
-      grid.constraint_cell_refs(0).should == cell_0_constraint_refs
+      easy_grid.constraint_cell_refs(0).should == cell_0_constraint_refs
     end
 
     it "should know the set of cells constraining a given cell's value" do
-      grid.cell_constraints[0].count.should == 20
+      easy_grid.cell_constraints[0].count.should == 20
     end
 
   end # of context
 
   context '(solving puzzle)' do
    it 'should know when it is unsolved (any cell unsolved)' do
-      expect(grid).not_to be_solved
+      expect(easy_grid).not_to be_solved
     end
 
     xit 'should know when it is solved (all cells solved)' do
