@@ -2,7 +2,7 @@
 
 class Cell
 
-  attr_reader :ref, :values
+  attr_reader :values
 
   def initialize
     @values = (1..9).to_a

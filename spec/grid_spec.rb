@@ -38,10 +38,6 @@ describe Grid do
   end # of context
 
   context '(initialization of constraints)' do
-    it "should know the references of all cells constraining a given cell's value" do
-      easy_grid.constraint_cell_refs(0).should == cell_0_constraint_refs
-    end
-
     it "should know the set of cells constraining a given cell's value" do
       easy_grid.cell_constraints[0].count.should == 20
     end
@@ -57,7 +53,7 @@ describe Grid do
     end
 
     it 'should know when it is solved (all cells solved)' do
-      easy_grid.update_cell_values
+      easy_grid.update_all_cell_values
       easy_grid.cell_at(0).values.should == [6]
     end
 
@@ -68,8 +64,9 @@ describe Grid do
   end # of context
 
   context '#to_s' do
-    xit 'should return a string representation of the puzzle' do
-      easy_grid.to_s.should == '615493872348127956279568431496832517521746389783915264952681743864379125137254698'
+    it 'should return a string representation of the puzzle' do
+      easy_grid.to_s.gsub(/\s/, '').gsub(/-/, '0').should == '015003002000100'+
+      '906270068430490002017501040380003905000900081040860070025037204600'
     end
   end
 

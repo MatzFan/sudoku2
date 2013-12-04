@@ -13,14 +13,20 @@ class Grid
     raise ArgumentError, 'Not 81 cells' if puzzle.length != 81
     raise ArgumentError, 'Non digits' if !(puzzle =~ /\d{81}/)
     @cells = Array.new(9) { Array.new(9) { Cell.new } }
-    @cell_constraints = Array.new(81) { Array.new } # array of cells
+    @cell_constraints = Array.new(81) { Array.new }
     setup_cell_constraint_sets
     feed_in_puzzle_values(puzzle.split(''))
   end
 
+  def setup_cell_constraint_sets
+    (0..80).each do |n|
+      Constraints::CELL_CONSTRAINTS[n].each { |ref| @cell_constraints[n] << cell_at(ref) }
+    end
+  end
+
   def solve
     100.times do
-      update_cell_values
+      update_all_cell_values
       return if solved?
     end
   end
@@ -37,12 +43,14 @@ class Grid
     cells.reject { |cell| !cell.solved? }
   end
 
-  def update_cell_values
-    unsolved_cell_refs.each do |ref|
-      solved_cells(cell_constraints[ref]).each do |other_solved_cell|
-        cell_at(ref).reduce_cell_values(other_solved_cell)
+  def update_cell_values_for_cell_at(ref)
+    solved_cells(@cell_constraints[ref]).each do |solved_cell|
+        cell_at(ref).reduce_cell_values(solved_cell)
       end
-    end
+  end
+
+  def update_all_cell_values
+    unsolved_cell_refs.each { |ref| update_cell_values_for_cell_at(ref) }
   end
 
   def feed_in_puzzle_values(puzzle_array)
@@ -53,22 +61,8 @@ class Grid
     cells[num / 9][num % 9]
   end
 
-  def setup_cell_constraint_sets
-    (0..80).each do |n|
-      constraint_cell_refs(n).each { |ref| @cell_constraints[n] << cell_at(ref) }
-    end
-  end
-
   def solved?
     solved_cells(cells.flatten).count == 81
-  end
-
-  def constraint_cell_refs(ref)
-    constraint_sets_for(ref).flatten.uniq.sort.reject { |e| e == ref }
-  end
-
-  def constraint_sets_for(ref)
-    CELL_SETS[ref].map { |set| CONSTRAINT_SETS[set] }
   end
 
   def simple_string
@@ -76,7 +70,13 @@ class Grid
   end
 
   def to_s
-    cells.each { |row| row.each { |cell| printf("%2s", cell.to_s) }; puts }
+    cells.map { |row| row.map { |cell| sprintf("%2s", cell.to_s) }.join }.join("\n")+"\n\n"
   end
 
 end # of class
+
+easy = Grid.new('015003002000100906270068430490002017501040380003905000900081040860070025037204600')
+hard = Grid.new('800000000003600000070090200050007000000045700000100030001000068008500010090000400')
+puts easy
+easy.solve
+puts easy
