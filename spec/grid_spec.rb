@@ -69,6 +69,11 @@ describe Grid do
       hard_grid.solve
       hard_grid.should_not be_solved
     end
+
+    xit 'hard Sudoku should call :try_harder' do
+      hard_grid.should_receive(:guess)
+      hard_grid.solve
+    end
   end # of context
 
   context '#to_s' do
