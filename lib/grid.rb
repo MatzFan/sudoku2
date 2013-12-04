@@ -25,9 +25,11 @@ class Grid
   end
 
   def solve
-    100.times do
+    unsolved_before, looping = unsolved_cells, false
+    while !solved? && !looping
+      unsolved_before = unsolved_cells
       update_all_cell_values
-      return if solved?
+      looping = unsolved_before == unsolved_cells
     end
   end
 
@@ -75,8 +77,8 @@ class Grid
 
 end # of class
 
-easy = Grid.new('015003002000100906270068430490002017501040380003905000900081040860070025037204600')
-hard = Grid.new('800000000003600000070090200050007000000045700000100030001000068008500010090000400')
-puts easy
-easy.solve
-puts easy
+# easy = Grid.new('015003002000100906270068430490002017501040380003905000900081040860070025037204600')
+# hard = Grid.new('800000000003600000070090200050007000000045700000100030001000068008500010090000400')
+# puts easy
+# easy.solve
+# puts easy

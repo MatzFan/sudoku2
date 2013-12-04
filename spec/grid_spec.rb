@@ -6,10 +6,13 @@ describe Grid do
                         '00900081040860070025037204600' }
   let(:invalid) { '-150030020001009062700684304900020175010403800039050'+
                   '00900081040860070025037204600' }
+  let(:hard) { '80000000000360000007009020005000700000004570000010003000100'+
+               '0068008500010090000400' }
   let(:solved) { '615493872348127956279568431496832517521746389783915264952'+
                  '681743864379125137254698' }
   let(:easy_grid) { Grid.new(easy) }
   let(:solved_grid) { Grid.new(solved) }
+  let(:hard_grid) { Grid.new(hard) }
   let(:cell_0) { double(easy.cells[0]) }
   let(:cell_0_constraint_refs) { [1,2,3,4,5,6,7,8,9,10,11,18,19,20,27,36,45,54,63,72] }
 
@@ -57,9 +60,14 @@ describe Grid do
       easy_grid.cell_at(0).values.should == [6]
     end
 
-    it 'should be solvable!' do
+    it 'easy Sudoku should be solvable' do
       easy_grid.solve
       easy_grid.should be_solved
+    end
+
+    it 'hard Sudoku should not be solvable' do
+      hard_grid.solve
+      hard_grid.should_not be_solved
     end
   end # of context
 
