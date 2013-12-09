@@ -28,24 +28,12 @@ class Grid
     looping, cells_not_solved = false, num_unsolved
     while !solved? && !looping
       cells_not_solved = num_unsolved
-      # fill_in_determined_cells
       looping = cells_not_solved == num_unsolved
+      puts "Number of unsolved cells is : #{num_unsolved}"
     end
-    try_harder
-  end
-
-  def fill_in_determined_cells
-    unsolved_cell_refs.each do |ref|
-      this_cell = cell_at(ref)
-      solved_cells(@cell_constraints[ref]).each do |solved_cell|
-        this_cell.reduce_cell_values(solved_cell) # reduces cell values
-      end
-    end
-  end
-
-  def try_harder
     puts self
-    ref = unsolved_cell_refs[0]
+    ref = find_cell_refs_with_least_unknowns
+    puts "Cell with least unknowns is #{ref}"
     this_cell = cell_at(ref)
     solved_cells(@cell_constraints[ref]).each do |solved_cell|
       this_cell.reduce_cell_values(solved_cell) # reduces cell values
@@ -55,6 +43,20 @@ class Grid
       new_grid.cell_at(ref).value = guess
       new_grid.solve
       return new_grid if new_grid.solved?
+    end
+  end
+
+  def find_cell_refs_with_least_unknowns
+    fill_in_determined_cells
+    unsolved_cell_refs.inject { |arr, ref| ref if cell_at(ref).values.length < ref || 9 }
+  end
+
+  def fill_in_determined_cells
+    unsolved_cell_refs.each do |ref|
+      this_cell = cell_at(ref)
+      solved_cells(@cell_constraints[ref]).each do |solved_cell|
+        this_cell.reduce_cell_values(solved_cell) # reduces cell values
+      end
     end
   end
 
@@ -87,7 +89,8 @@ class Grid
   end
 
   def solved?
-    solved_cells(cells.flatten).count == 81
+    unsolved_cells == nil
+    # solved_cells(cells.flatten).count == 81
   end
 
   def simple_string
@@ -105,5 +108,5 @@ different = '8000970050214000636900310740129705800675024009001002302493067501008
 # dgrid = Grid.new(different)
 hard = Grid.new('800000000003600000070090200050007000000045700000100030001000068008500010090000400')
 # puts easy
-hard.solve
-puts hard
+easy.solve
+puts easy
