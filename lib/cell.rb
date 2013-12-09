@@ -18,4 +18,8 @@ class Cell
     @values -= solved_cell.values
   end
 
+  def to_s
+    values.length == 1 ? values[0].to_s : '-'
+  end
+
 end
