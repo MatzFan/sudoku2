@@ -2,7 +2,7 @@ require 'cell'
 
 describe Cell do
 
-    let(:unsolved_cell) { Cell.new } # unsolved
+    let(:unsolved_cell) { Cell.new(7) } # unsolved
 
   context '(initialization)' do
     it 'should know it is not solved' do
@@ -21,7 +21,7 @@ describe Cell do
 
   context '(solving puzzle)' do
     it "should be able to update it's values by reference to a solved cell" do
-      solved_cell = Cell.new
+      solved_cell = Cell.new(7)
       solved_cell.value = 5
       unsolved_cell.reduce_cell_values(solved_cell)
       unsolved_cell.values.should == [1,2,3,4,6,7,8,9]

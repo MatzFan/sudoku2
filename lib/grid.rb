@@ -10,7 +10,8 @@ class Grid
   def initialize(puzzle)
     raise ArgumentError, 'Not 81 cells' if puzzle.length != 81
     raise ArgumentError, 'Non digits' if !(puzzle =~ /\d{81}/)
-    @cells = Array.new(9) { Array.new(9) { Cell.new } }
+    # @cells = Array.new(9) { Array.new(9) { Cell.new } }
+    @cells = (0..80).inject([]) { |arr, ref| arr << Cell.new(ref) }
     @cell_constraints = Array.new(81) { Array.new } # array of cells
     setup_cell_constraint_sets
     feed_in_puzzle_values(puzzle.split(''))
@@ -44,11 +45,12 @@ class Grid
   end
 
   def feed_in_puzzle_values(puzzle_array)
-    (0..80).each { |n| cell_at(n).value = puzzle_array[n].to_i }
+    (0..80).each { |n| cells[n].value = puzzle_array[n].to_i }
   end
 
   def cell_at(num)
-    cells[num / 9][num % 9]
+    # cells[num / 9][num % 9]
+    cells[num]
   end
 
   def setup_cell_constraint_sets
@@ -70,11 +72,11 @@ class Grid
   end
 
   def to_simple_string
-    s = ''; cells.flatten.each { |cell| s << cell.to_s }; s
+    s = ''; cells.each { |cell| s << cell.to_s }; s
   end
 
   def to_s
-    cells.map { |row| row.map { |cell| sprintf("%2s", cell.to_s) }.join }.join("\n")+"\n\n"
+    # cells.map { |row| row.map { |cell| sprintf("%2s", cell.to_s) }.join }.join("\n")+"\n\n"
   end
 
 end # of class
@@ -84,5 +86,5 @@ g = Grid.new(s)
 # # # p g.unsolved_cell_refs.count
 # # # (0..80).each { |n| p g.cell_at(n).values }
 # # p g.solved_cells( g.cells.flatten )
-g.solve
-puts g
+# g.solve
+# puts g

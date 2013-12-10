@@ -23,7 +23,7 @@ describe Grid do
     end
 
     it 'should be initialized with a set of cells with values' do
-      easy_grid.cells.flatten[2].values.should == [5]
+      easy_grid.cells[2].values.should == [5]
     end
 
     it 'should have a list of unsolved cell refs after inialization' do

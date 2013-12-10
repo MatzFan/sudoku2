@@ -2,7 +2,8 @@ class Cell
 
   attr_reader :ref, :values
 
-  def initialize
+  def initialize(ref)
+    @ref = ref
     @values = (1..9).to_a
   end
 
@@ -19,7 +20,7 @@ class Cell
   end
 
   def to_s
-    values.length == 1 ? values[0].to_s : '-'
+    values.length == 1 ? values[0].to_s : '0'
   end
 
 end
