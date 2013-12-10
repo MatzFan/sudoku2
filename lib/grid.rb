@@ -69,7 +69,7 @@ class Grid
     CELL_SETS[ref].map { |set| CONSTRAINT_SETS[set] }
   end
 
-  def simple_string
+  def to_simple_string
     s = ''; cells.flatten.each { |cell| s << cell.to_s }; s
   end
 
@@ -81,8 +81,8 @@ end # of class
 
 s = '015003002000100906270068430490002017501040380003905000900081040860070025037204600'
 g = Grid.new(s)
-# # p g.unsolved_cell_refs.count
-# # (0..80).each { |n| p g.cell_at(n).values }
-# p g.solved_cells( g.cells.flatten )
+# # # p g.unsolved_cell_refs.count
+# # # (0..80).each { |n| p g.cell_at(n).values }
+# # p g.solved_cells( g.cells.flatten )
 g.solve
 puts g
