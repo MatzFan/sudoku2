@@ -26,7 +26,7 @@ class Cell
   end
 
   def reduce_values(solved_cell)
-    @values -= solved_cell.values
+    @values -= solved_cell.values if !solved?
   end
 
   def to_s

@@ -16,8 +16,7 @@ class Grid
   end
 
   def solve
-    update_cell_values
-    update_cell_values
+    update_cell_values while !solved?
   end
 
   def solved_cells
@@ -29,7 +28,9 @@ class Grid
   end
 
   def update_cell_values
-    unsolved_cells.each { |cell| cell.update_values }
+    unsolved_cells.each do |cell|
+      cell.update_values
+    end
   end
 
   def feed_in_puzzle_values(puzzle_array)
@@ -44,7 +45,7 @@ class Grid
   end
 
   def solved?
-    solved_cells(cells).count == 81
+    solved_cells.count == 81
   end
 
   def to_simple_string
